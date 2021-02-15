@@ -38,7 +38,7 @@ python execute.py
 
 This script requires three input files:
 
-    1. **Standards List:** A csv file containing three columns: standard_name, lab_1_rt, lab_2_rt. 
+    1. __Standards List:__ A csv file containing three columns: standard_name, lab_1_rt, lab_2_rt. 
         - Filename is standards.csv
         - standards_name is a string of the name of the standard. 
         - lab_1_rt and lab_2_rt are the retention times (in minutes) of the standard from each laboratory. 
