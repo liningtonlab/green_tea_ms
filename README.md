@@ -32,6 +32,30 @@ To install the scripts:
 python execute.py
 ```
 
+# Input Data
+
+##  peak_list_align
+
+This script requires three input files:
+
+    1. **Standards List:** A csv file containing three columns: standard_name, lab_1_rt, lab_2_rt. 
+        - Filename is standards.csv
+        - standards_name is a string of the name of the standard. 
+        - lab_1_rt and lab_2_rt are the retention times (in minutes) of the standard from each laboratory. 
+    2. **Laboratory 1 Feature List:** A csv file containing two columns: feature_rt and feature_mz.
+        - Filename is lab_1_feature_list.csv
+        - This is the feature list from the test sample from Laboratory 1. 
+        - Typically derived from MZMine 2, although it will work with feature lists from any MS processing software provided that rt and m/z values are generated.
+    3. **Laboratory 2 Feature List:** A matching feature list for the same sample analyzed in Laboratory 2. 
+        - Filename is lab_2_feature_list.csv
+        - Requires the same structure as Laboratory 1 feature list. 
+
+## mass_peak_align
+
+This script requires one input file containing four columns: peak_id, scan, mz, intensity:
+
+    - Filname is mass_peak_scan_data.csv
+    - 
 # Contributors
 
 Roger Linington: [rlinington](http://github.com/rlinington)
