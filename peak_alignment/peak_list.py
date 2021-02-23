@@ -72,7 +72,7 @@ def compare_peaks(peak_list):
     return peak_list
 
 
-def export_aligned_peaks(grouped_peak_list, parameters):
+def export_aligned_peaks(grouped_peak_list, parameters, output_filename):
 
     export_data = []
 
@@ -81,8 +81,6 @@ def export_aligned_peaks(grouped_peak_list, parameters):
 
     headers = [["sample", "peak_id", "analyte_id", "mz", "rt"]]
 
-    with open (os.path.join(parameters.output_directory, parameters.aligned_peak_output_filename),
-               "w", newline='',
-               encoding='utf-8') as g:
+    with open(os.path.join(parameters.output_directory, output_filename), "w", newline='', encoding='utf-8') as g:
         csv_g = csv.writer(g)
         csv_g.writerows(headers + export_data)

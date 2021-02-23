@@ -19,7 +19,7 @@ def mass_match(mass1, mass2, parameters):
 def rt_match(rt1, rt2, parameters):
     """Assess peak match based on rt values and rt error"""
 
-    corrected_rt1 = (rt1 - parameters.standards_x_intercept) / parameters.standards_slope
+    corrected_rt1 = (rt1 + parameters.standards_intercept) / parameters.standards_slope
 
     if corrected_rt1 - parameters.rt_error <= rt2 <= corrected_rt1 + parameters.rt_error:
         return True
@@ -38,8 +38,10 @@ def standards_relationship(standards_list):
         lab_b_rt.append(float(row[2]))
 
     linear_regression = linregress(lab_a_rt, lab_b_rt)
+    print("Standards calibration regression. Slope: " + str(linear_regression.slope) + " Intercept: "
+          + str(linear_regression.intercept))
 
-    return linear_regression.slope, linear_regression.x_intercept
+    return linear_regression.slope, linear_regression.intercept
 
 
 def align_ms_features(lab_a_data, lab_b_data, parameters):
@@ -49,7 +51,7 @@ def align_ms_features(lab_a_data, lab_b_data, parameters):
         for lab_b_peak in lab_b_data:
             if not lab_b_peak[2]:
                 if mass_match(lab_a_peak[0], lab_b_peak[0], parameters) and rt_match(lab_a_peak[1], lab_b_peak[1],
-                                                                                   parameters):
+                                                                                     parameters):
                     lab_a_peak.append(lab_b_peak[0])
                     lab_a_peak.append(lab_b_peak[1])
                     lab_a_peak.append(True)
