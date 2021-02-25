@@ -25,7 +25,7 @@ class Parameters:
         self.lab_b_aligned_peak_output_filename = "lab_b_aligned_peak_list.csv"
         self.aligned_feature_output_filename = "aligned_feature_list.csv"
         self.rt_error = 0.1
-        self.mz_ppm_error = 50
+        self.mz_da_error = 0.05
         self.standards_slope = None
         self.standards_intercept = None
 

@@ -6,11 +6,9 @@ from scipy.stats import linregress
 
 
 def mass_match(mass1, mass2, parameters):
-    """Assess peak match based on mz values and ppm mz error"""
+    """Assess peak match based on mz values and Da mz error"""
 
-    ppm_difference = (mass1 * parameters.mz_ppm_error)/1000000
-
-    if mass1 - ppm_difference <= mass2 <= mass1 + ppm_difference:
+    if mass1 - parameters.mz_da_error <= mass2 <= mass1 + parameters.mz_da_error:
         return True
     else:
         return False
@@ -19,7 +17,7 @@ def mass_match(mass1, mass2, parameters):
 def rt_match(rt1, rt2, parameters):
     """Assess peak match based on rt values and rt error"""
 
-    corrected_rt1 = (rt1 + parameters.standards_intercept) / parameters.standards_slope
+    corrected_rt1 = (rt1 - parameters.standards_intercept) / parameters.standards_slope
 
     if corrected_rt1 - parameters.rt_error <= rt2 <= corrected_rt1 + parameters.rt_error:
         return True
@@ -45,6 +43,10 @@ def standards_relationship(standards_list):
 
 
 def align_ms_features(lab_a_data, lab_b_data, parameters):
+    """Compare feature lists from two different instruments and identify features that match between the two lists,
+    within defined mz and rt error windows
+
+    """
 
     for lab_a_peak in lab_a_data:
         peak_match = False
@@ -58,8 +60,6 @@ def align_ms_features(lab_a_data, lab_b_data, parameters):
                     peak_match = True
                     lab_b_peak[2] = True
                     break
-                # elif synapt_peak[0] < orbi_peak[0] + 1:
-                #     break
         if not peak_match:
             lab_a_peak.append(None)
             lab_a_peak.append(None)
