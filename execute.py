@@ -67,8 +67,9 @@ def feature_list_align(parameters):
         csv_h = csv.reader(h)
         next(h)
         for row in csv_h:
-            # insert mz and rt data to list
-            lab_a_data.append([float(row[0]), float(row[1])])
+            # insert mz and rt data to list. Add third column (default None) to track whether peak is already matched to
+            # a feature from laboratory B
+            lab_a_data.append([float(row[0]), float(row[1]), None])
     sorted_lab_a_data = sorted(lab_a_data, key=itemgetter(0))
 
     lab_b_data = []
@@ -76,9 +77,8 @@ def feature_list_align(parameters):
         csv_i = csv.reader(i)
         next(i)
         for row in csv_i:
-            # insert mz and rt data to list. Add third column (default None) to track whether peak is already matched to
-            # a feature from laboratory A
-            lab_b_data.append([float(row[0]), float(row[1]), None])
+            # insert mz and rt data to list
+            lab_b_data.append([float(row[0]), float(row[1])])
     sorted_lab_b_data = sorted(lab_b_data, key=itemgetter(0))
 
     feature_list.align_ms_features(sorted_lab_a_data, sorted_lab_b_data, parameters)

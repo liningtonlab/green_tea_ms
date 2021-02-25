@@ -35,7 +35,7 @@ def standards_relationship(standards_list):
         lab_a_rt.append(float(row[1]))
         lab_b_rt.append(float(row[2]))
 
-    linear_regression = linregress(lab_a_rt, lab_b_rt)
+    linear_regression = linregress(lab_b_rt, lab_a_rt)
     print("Standards calibration regression. Slope: " + str(linear_regression.slope) + " Intercept: "
           + str(linear_regression.intercept))
 
@@ -48,41 +48,42 @@ def align_ms_features(lab_a_data, lab_b_data, parameters):
 
     """
 
-    for lab_a_peak in lab_a_data:
+    for lab_b_peak in lab_b_data:
         peak_match = False
-        for lab_b_peak in lab_b_data:
-            if not lab_b_peak[2]:
-                if mass_match(lab_a_peak[0], lab_b_peak[0], parameters) and rt_match(lab_a_peak[1], lab_b_peak[1],
+        for lab_a_peak in lab_a_data:
+            if not lab_a_peak[2]:
+                if mass_match(lab_b_peak[0], lab_a_peak[0], parameters) and rt_match(lab_b_peak[1], lab_a_peak[1],
                                                                                      parameters):
-                    lab_a_peak.append(lab_b_peak[0])
-                    lab_a_peak.append(lab_b_peak[1])
-                    lab_a_peak.append(True)
+                    lab_b_peak.append(lab_a_peak[0])
+                    lab_b_peak.append(lab_a_peak[1])
+                    lab_b_peak.append(True)
                     peak_match = True
-                    lab_b_peak[2] = True
+                    lab_a_peak[2] = True
                     break
         if not peak_match:
-            lab_a_peak.append(None)
-            lab_a_peak.append(None)
-            lab_a_peak.append(False)
+            lab_b_peak.append(None)
+            lab_b_peak.append(None)
+            lab_b_peak.append(False)
 
-    headers = [["Laboratory_A_mz", "Laboratory_A_rt", "Laboratory_B_mz", "Laboratory_B_rt", "Matched"]]
+    headers = [["Laboratory_B_mz", "Laboratory_B_rt", "Laboratory_A_mz", "Laboratory_A_rt", "Matched"]]
 
     with open(os.path.join("data",
                            "output_data",
                            parameters.aligned_feature_output_filename), "w", newline='') as k:
         csv_k = csv.writer(k)
-        csv_k.writerows(headers + lab_a_data)
+        csv_k.writerows(headers + lab_b_data)
 
     print("Total number of features from Laboratory A: " + str(len(lab_a_data)))
     print("Total number of features from Laboratory B: " + str(len(lab_b_data)))
+
     lab_a_match_count = 0
     for row in lab_a_data:
-        if row[4]:
+        if row[2]:
             lab_a_match_count += 1
     print("Number of Laboratory A matched features = " + str(lab_a_match_count))
-
+    
     lab_b_match_count = 0
     for row in lab_b_data:
-        if row[2]:
+        if row[4]:
             lab_b_match_count += 1
     print("Number of Laboratory B matched features = " + str(lab_b_match_count))
