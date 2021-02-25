@@ -39,7 +39,7 @@ def standards_relationship(standards_list):
     print("Standards calibration regression. Slope: " + str(linear_regression.slope) + " Intercept: "
           + str(linear_regression.intercept))
 
-    return linear_regression.slope, linear_regression.intercept
+    return round(linear_regression.slope, 3), round(linear_regression.intercept, 4)
 
 
 def align_ms_features(lab_a_data, lab_b_data, parameters):
