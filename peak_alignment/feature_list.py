@@ -81,7 +81,7 @@ def align_ms_features(lab_a_data, lab_b_data, parameters):
         if row[2]:
             lab_a_match_count += 1
     print("Number of Laboratory A matched features = " + str(lab_a_match_count))
-    
+
     lab_b_match_count = 0
     for row in lab_b_data:
         if row[4]:
